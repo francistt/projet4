@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Bienvenue sur la billetterie du musée du Louvre</h1>
+<P>Le musée du Louvre vous accueille tous les jours, sauf les mardis et quelques jours fériés (les 1er mai, 1er novembre et 25 décembre),<br>
+de 9h à 18h, jusqu'à 21h45 les jeudis et vendredis.<br>
+La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p>
+<br>
+<h2>Acheter vos billets électroniques</h2>
+<form>
+  <fieldset>
+    <legend>Date de la visite</legend>
+    <div class="form-group">
+      <label for="visiteDate">date de visite</label>
+      <input type="date" class="form-control" id="visitDate" placeholder="votre date de visite">
+    </div>
+    <fieldset class="form-group">
+      <legend>Type de billet</legend>
+      <p>Pour votre visite, deux types de billets vous sont proposés :</p>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+          Billet « Journée »
+        </label>
+      </div>
+      <div class="form-check">
+      <label class="form-check-label">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+          Billet « Demi-journée ». Il vous permet d’entrer dans l’établissement à partir de 14h.
+        </label>
+      </div>
+      <div class="form-check disabled">
+      </div>
+    </fieldset>
+    <legend>Nombre de billet(s)</legend>
+    <div class="form-group">
+      <label for="ticketsNumber">Nombre de billet(s)</label>
+      <select class="form-control" id="ticketsNumber">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+      </select>
+    </div>
+
+    <a href="{{ path('contacts') }}" button type="submit" class="btn btn-primary">Suivant</a>
+  </fieldset>
+</form>
+{% endblock %}

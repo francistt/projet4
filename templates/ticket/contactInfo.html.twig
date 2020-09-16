@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<h1>Coordonnées</h1>
+
+{{ form_start(formUser) }}
+
+{{ form_row(formUser.lastName, {'attr' : {'placeholder': "Nom"}}) }}
+{{ form_row(formUser.firstName, {'attr' : {'placeholder': "Prénom"}}) }}
+{{ form_row(formUser.birthdate) }}
+{{ form_row(formUser.country, {'attr' : {'placeholder': "Pays"}}) }}
+
+    <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" name="discount" value="">
+          Tarif réduit
+        </label>
+    </div>
+
+<button type="submit" class="btn btn-success">Suivant</button>
+
+{{ form_end(formUser) }}
+
+{% endblock %}
