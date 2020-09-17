@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Entity\Users;
+use App\Entity\User;
+use App\Form\UserType;
 
 class TicketController extends AbstractController
 {
@@ -28,30 +29,17 @@ class TicketController extends AbstractController
         return $this->render('ticket/home.html.twig');
     }
 
-    /**
+        /**
      * @Route("/billetterie/contact", name="contact")
      */
-    public function contactInfo(Request $request, EntityManagerInterface $manager) {
-        dump($request);
-        return $this->render('ticket/contactInfo.html.twig');
-    }
-
-        /**
-     * @Route("/billetterie/contacts", name="contacts")
-     */
     public function newUser(Request $request, EntityManagerInterface $manager) {
-        $users = new Users();
+        $user = new User();
 
-        $form = $this->createFormBuilder($users)
-                     ->add('lastName')
-                     ->add('firstName')
-                     ->add('birthdate')
-                     ->add('country')
-                     ->getForm();
+        $form = $this->createform(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        //$manager->persist($users);
+        //$manager->persist($user);
         //$manager->flush();
 
         return $this->render('ticket/contactInfos.html.twig', [
