@@ -9,7 +9,20 @@ La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p
 <h2>Acheter vos billets électroniques</h2>
 <form>
   <fieldset>
-    <legend>Date de la visite</legend>
+    <legend>Vos coordonnées</legend>
+    <div class="form-group">
+      <label class="col-form-label" for="last_name">Nom</label>
+      <input type="text" class="form-control" placeholder="nom" id="last_name">
+    </div>
+    <div class="form-group">
+      <label class="col-form-label" for="first_name">Prénom</label>
+      <input type="text" class="form-control" placeholder="prénom" id="first_name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail">Addresse Email</label>
+      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
     <div class="form-group">
       <label for="visiteDate">date de visite</label>
       <input type="date" class="form-control" id="visitDate" placeholder="votre date de visite">

@@ -8,10 +8,11 @@
 
 {{ form_start(formUser) }}
 
-{{ form_row(formUser.lastName, {'attr' : {'placeholder': "Nom"}}) }}
-{{ form_row(formUser.firstName, {'attr' : {'placeholder': "Prénom"}}) }}
+{{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
+{{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
 {{ form_row(formUser.birthdate) }}
-{{ form_row(formUser.country, {'attr' : {'placeholder': "Pays"}}) }}
+{{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
+{{ form_row(formUser.price, {'label': 'Prix','attr' : {'placeholder': "prix"}}) }}
 
     <div class="form-check">
         <label class="form-check-label">
@@ -21,6 +22,18 @@
     </div>
 
 <button type="submit" class="btn btn-success">Suivant</button>
+
+<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <h4 class="card-header">Résumé</h4>
+  <div class="card-body">
+    <p class="card-text">reservation n° xxxxxxxxx</br>
+     date de visite le xx/xx/xx</br>
+     demi journée</br>
+    billet 1: jeanc claude 58 ans : 15€</br>
+    billet 2: Vanessa 30 ans : 30€</br>
+    total : 45€</p>
+  </div>
+</div>
 
 {{ form_end(formUser) }}
 

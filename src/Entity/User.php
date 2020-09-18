@@ -41,14 +41,14 @@ class User
     private $birthdate;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="boolean")
      */
-    private $discount;
+    private $discount=false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="clients")
      */
-    private $reservationId;
+    private $reservation;
 
     /**
      * @ORM\Column(type="integer")
@@ -108,26 +108,14 @@ class User
         return $this;
     }
 
-    public function getDiscount(): ?int
+    public function getDiscount(): ?bool
     {
         return $this->discount;
     }
 
-    public function setDiscount(int $discount): self
+    public function setDiscount(bool $discount): self
     {
         $this->discount = $discount;
-
-        return $this;
-    }
-
-    public function getReservationId(): ?string
-    {
-        return $this->reservationId;
-    }
-
-    public function setReservationId(string $reservationId): self
-    {
-        $this->reservationId = $reservationId;
 
         return $this;
     }
@@ -140,6 +128,18 @@ class User
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }

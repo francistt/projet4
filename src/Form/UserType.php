@@ -16,8 +16,6 @@ class UserType extends AbstractType
             ->add('firstName')
             ->add('country')
             ->add('birthdate')
-            ->add('discount')
-            ->add('reservationId')
             ->add('price')
         ;
     }

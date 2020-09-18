@@ -23,14 +23,14 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/billetterie", name="home")
+     * @Route("/home", name="home")
      */
     public function home() {
         return $this->render('ticket/home.html.twig');
     }
 
         /**
-     * @Route("/billetterie/contact", name="contact")
+     * @Route("/home/user", name="user")
      */
     public function newUser(Request $request, EntityManagerInterface $manager) {
         $user = new User();
