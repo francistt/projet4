@@ -1,0 +1,23 @@
+TicketPrice: 
+  ages: 
+    sinceSenior: 60
+    limitBaby: 4
+    limitChildren: 12
+  prices: 
+    senior: 12
+    baby: 0
+    children: 8
+    normal: 16
+    discount: 10
+  coefficient: 
+    halfDay: .5
+
+UnavailableDate: 
+  week: 
+    - thu
+    - sun
+  days : 
+    - 25
+
+
+EntriesLimit: 1000
