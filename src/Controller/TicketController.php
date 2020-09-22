@@ -13,14 +13,6 @@ use App\Form\UserType;
 
 class TicketController extends AbstractController
 {
-    /**
-     * @Route("/ticket", name="ticket")
-     */
-    public function index() {
-        return $this->render('ticket/index.html.twig', [
-            'controller_name' => 'TicketController',
-        ]);
-    }
 
     /**
      * @Route("/home", name="home")
@@ -29,7 +21,7 @@ class TicketController extends AbstractController
         return $this->render('ticket/home.html.twig');
     }
 
-        /**
+    /**
      * @Route("/home/user", name="user")
      */
     public function newUser(Request $request, EntityManagerInterface $manager) {

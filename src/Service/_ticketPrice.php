@@ -35,7 +35,7 @@ class TicketPrice {
         return $this->definePrice($this->priceNormal, $reduced, $halfday);
     }
 
-    private function getAge(birthdate){
+    private function getAge($birthdate){
         $age = date('Y') - $birthdate; 
         if (date('md') < date('md', strtotime($birthdate))) { 
             return $age - 1; 
