@@ -46,6 +46,11 @@ class Reservation
      */
     private $createdAt;
 
+   /** 
+     * @ORM\Column(type="datetime")
+     */
+    private $reservation_date;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -137,6 +142,18 @@ class Reservation
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getReservationDate(): ?\DateTimeInterface 
+    {
+        return $this->reservation_date;
+    }
+
+    public function setReservationDate(?\DateTimeInterface $reservation_date): self
+    {
+        $this->reservation_date = $reservation_date;
 
         return $this;
     }

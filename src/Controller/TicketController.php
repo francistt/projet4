@@ -44,7 +44,6 @@ class TicketController extends AbstractController
 
         return $this->render('ticket/contactInfos.html.twig', [
             'formUser' => $form->createView()
-
         ]);
     }
 }

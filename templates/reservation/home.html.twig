@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Reservation{% endblock %}
+{% block title %}Billetterie{% endblock %}
 
 {% block body %}
+    <div class="jumbotron text-center">
     <h1>Bienvenue sur la billetterie du musée du Louvre</h1>
     <P>Le musée du Louvre vous accueille tous les jours, sauf les mardis et quelques jours fériés (les 1er mai, 1er novembre et 25 décembre),<br>
     de 9h à 18h, jusqu'à 21h45 les jeudis et vendredis.<br>
     La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p>
     <br>
+    </div>
     <h2>Acheter vos billets électroniques</h2>
 
     {{ form_start(form) }}

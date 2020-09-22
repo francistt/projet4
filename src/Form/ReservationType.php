@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ReservationType extends AbstractType
 {
@@ -37,6 +38,13 @@ class ReservationType extends AbstractType
             ->add('nbTicket', IntegerType::class,[
                 'label' =>"Nombre de billet(s)"
             ])
+
+
+            ->add('reservation_date', DateTimeType::class,[
+                'label' =>"Date de réservation",
+                'widget' => 'single_text'
+            ])
+            
             ->add('halfDay', ChoiceType::class, [
                 'label' =>"Type de billet",
                 'choices' => array_flip([

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/home", name="reservation_home", methods={"GET","POST"})
      */
-    public function home(Request $request): Response
+    public function home(Request $request, EntityManagerInterface $manager): Response
     {
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -23,11 +24,10 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $reservation->setUuid(md5('test'));
+            $reservation->setUuid(date("YMdHis"),uniqid('', true));
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+            $manager->persist($reservation);
+            $manager->flush();
             
             return $this->redirectToRoute('reservation_index');
         }

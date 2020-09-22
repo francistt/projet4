@@ -2,39 +2,48 @@
 
 {% form_theme formUser 'bootstrap_4_layout.html.twig' %}
 
+{% block title %}Identification*$ù
+{% endblock %}
+
 {% block body %}
 
-<h1>Coordonnées</h1>
-
+<h1>Identification des visiteurs</h1>
 {{ form_start(formUser) }}
+<div class="row flex">
+  <div class="card text-white bg-primary mb-3" style="width: 30rem;">
+   <h4 class="card-header">Coordonnées</h4>
+    <div class="card-body">
+      <p class="card-text">BILLET N° 1</br>
+      {{ form_start(formUser) }}
 
-{{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
-{{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
-{{ form_row(formUser.birthdate) }}
-{{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
-{{ form_row(formUser.price, {'label': 'Prix','attr' : {'placeholder': "prix"}}) }}
+      {{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
+      {{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
+      {{ form_row(formUser.birthdate, {'label': 'Date de naissance'}) }}
+      {{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
+      {{ form_row(formUser.price, {'label': 'Prix','attr' : {'placeholder': "prix"}}) }}
 
-    <div class="form-check">
-        <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" name="discount" value="">
-          Tarif réduit
-        </label>
+      <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="discount" value="">
+            Tarif réduit
+          </label>
+      </div>
+      <button type="submit" class="btn btn-success">Suivant</button>
     </div>
+  </div>
 
-<button type="submit" class="btn btn-success">Suivant</button>
-
-<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-  <h4 class="card-header">Résumé</h4>
-  <div class="card-body">
-    <p class="card-text">reservation n° xxxxxxxxx</br>
+  <div class="card text-white bg-primary mb-3" style="width: 40rem;">
+   <h4 class="card-header">Résumé</h4>
+    <div class="card-body">
+     <p class="card-text">reservation n° xxxxxxxxx</br>
      date de visite le xx/xx/xx</br>
      demi journée</br>
-    billet 1: jeanc claude 58 ans : 15€</br>
-    billet 2: Vanessa 30 ans : 30€</br>
-    total : 45€</p>
+     billet 1: jeanc claude 58 ans : 15€</br>
+     billet 2: Vanessa 30 ans : 30€</br>
+     total : 45€</p>
+    </div>
   </div>
 </div>
-
 {{ form_end(formUser) }}
 
 {% endblock %}
