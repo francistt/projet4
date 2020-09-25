@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,26 +21,16 @@ class Reservation
      * @ORM\Column(type="integer")
      */ 
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
     
     /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="User", mappedBy="reservation", cascade={"persist"})
      */
     private $clients;
 
-    /**
-     * @ORM\Column(type="string", length=255)
+     /**
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
+    private $reserver;
 
     /**
      * @ORM\Column(type="datetime")
@@ -47,7 +38,7 @@ class Reservation
     private $createdAt;
 
    /** 
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $reservation_date;
 
@@ -90,48 +81,12 @@ class Reservation
     public function __construct()
     {
         $this->clients = new ArrayCollection();
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -146,12 +101,12 @@ class Reservation
         return $this;
     }
 
-    public function getReservationDate(): ?\DateTimeInterface 
+    public function getReservationDate(): ?\DateTimeInterface
     {
         return $this->reservation_date;
     }
 
-    public function setReservationDate(?\DateTimeInterface $reservation_date): self
+    public function setReservationDate(\DateTimeInterface $reservation_date): self
     {
         $this->reservation_date = $reservation_date;
 
@@ -199,7 +154,7 @@ class Reservation
         return $this->total;
     }
 
-    public function setTotal(int $total): self
+    public function setTotal(?int $total): self
     {
         $this->total = $total;
 
@@ -257,6 +212,18 @@ class Reservation
                 $client->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReserver(): ?User
+    {
+        return $this->reserver;
+    }
+
+    public function setReserver(?User $reserver): self
+    {
+        $this->reserver = $reserver;
 
         return $this;
     }

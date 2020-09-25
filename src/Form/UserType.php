@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +18,22 @@ class UserType extends AbstractType
         $builder
             ->add('lastName')
             ->add('firstName')
-            ->add('country')
-            ->add('birthdate')
-            ->add('price')
-        ;
+            ->add('country', CountryType::class, array())
+            ->add('birthdate', DateType::class, [
+                'format'      => 'ddMMyyyy',
+                'years'       => range(date('Y') - 99, date('Y')),
+                'label_attr'  => ['class' =>'active'],
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour', ],
+                'attr'        => [
+                    'class' => 'active birthdate',
+                ],
+                'required'   => true
+            ])
+            ->add('discount', CheckboxType::class, [
+                'required' => false
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

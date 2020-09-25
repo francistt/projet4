@@ -5,7 +5,8 @@
         <title>{% block title %}Billetterie du Louvre{% endblock %}</title>
         <link rel="stylesheet"
         href="https://bootswatch.com/4/superhero/bootstrap.min.css">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+        {% endblock %}
          <img style="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Louvre_Museum_Wikimedia_Commons.jpg/560px-Louvre_Museum_Wikimedia_Commons.jpg" alt="Card image">
 
     </head>
@@ -19,7 +20,7 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{{ path('home') }}">Accueil <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ path('reservation_home') }}">Accueil <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -28,15 +29,18 @@
   </div>
 </nav>
 <ol class="breadcrumb">
-  <li class="breadcrumb-item"><a href="{{ path('home') }}">Choix des billets</a></li>
-  <li class="breadcrumb-item"><a href="{{ path('user') }}">les utilisateurs</a></li>
-  <li class="breadcrumb-item"><a href="/billetterie/paiement">le compte rendu</a></li>
-  <li class="breadcrumb-item"><a href="/billetterie/confirmation">Confirmation de la commande</a></li>
+  <li class="breadcrumb-item"><a href="{{ path('reservation_home') }}">Choix des billets</a></li>
+  {% if reservation.id is defined and reservation.id is not null %}
+    <li class="breadcrumb-item"><a href="{{ path('user', {id: reservation.id}) }}">les utilisateurs</a></li>
+    <li class="breadcrumb-item"><a href="/billetterie/paiement">le compte rendu</a></li>
+    <li class="breadcrumb-item"><a href="/billetterie/confirmation">Confirmation de la commande</a></li>
+  {% endif %}
 </ol>
 <div class="container">
     {% block body %}{% endblock %}
 </div>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+    {% endblock %}
     </body>
 </html>
 

@@ -1,49 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
-
-{% block title %}Identification*$ù
+{% block title %}Identification
 {% endblock %}
 
 {% block body %}
 
 <h1>Identification des visiteurs</h1>
-{{ form_start(formUser) }}
-<div class="row flex">
-  <div class="card text-white bg-primary mb-3" style="width: 30rem;">
-   <h4 class="card-header">Coordonnées</h4>
-    <div class="card-body">
-      <p class="card-text">BILLET N° 1</br>
-      {{ form_start(formUser) }}
+{#% if not app.request.session.get('payer') %#}
+    {{ form_start(formUser) }}
+    <div class="row flex">
+      <div class="card text-white bg-primary mb-3" style="width: 30rem;">
+      <h4 class="card-header">Coordonnées</h4>
+        <div class="card-body">
+          <p class="card-text">BILLET N° 1</br>
+          {{ form_start(formUser) }}
 
-      {{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
-      {{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
-      {{ form_row(formUser.birthdate, {'label': 'Date de naissance'}) }}
-      {{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
-      {{ form_row(formUser.price, {'label': 'Prix','attr' : {'placeholder': "prix"}}) }}
+          {{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
+          {{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
+          {{ form_row(formUser.birthdate, {'label': 'Date de naissance'}) }}
+          {{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
+          {{ form_row(formUser.discount, {'label': 'Tarif réduit','attr' : {'placeholder': "Tarif réduit"}}) }}
 
-      <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" name="discount" value="">
-            Tarif réduit
-          </label>
+          <button type="submit" class="btn btn-success">Suivant</button>
+         </div>
+        </div>
       </div>
-      <button type="submit" class="btn btn-success">Suivant</button>
-    </div>
-  </div>
+        {{ form_end(formUser) }}
+  {#% else %#}
+      {# <a href="{{ }}"></a> #}
+      {#% endif %#}
+    
 
   <div class="card text-white bg-primary mb-3" style="width: 40rem;">
    <h4 class="card-header">Résumé</h4>
-    <div class="card-body">
-     <p class="card-text">reservation n° xxxxxxxxx</br>
-     date de visite le xx/xx/xx</br>
-     demi journée</br>
-     billet 1: jeanc claude 58 ans : 15€</br>
-     billet 2: Vanessa 30 ans : 30€</br>
-     total : 45€</p>
+    <div class="users">
+    {% for user in users %}
+      <p class="card-text">reservation n° uuuid</br>
+      date de visite le xx/xx/xx</br>
+      demi journée</br>
+      billet 1: {{ user.lastName }} {{ user.firstName  }} {{ user.birthdate|date("m/d/Y") }} : {{ user.price }} euros</br>
+      {% endfor %}
     </div>
   </div>
-</div>
-{{ form_end(formUser) }}
+
 
 {% endblock %}

@@ -1,6 +1,9 @@
 <?php
 namespace App\Service;
+
+use DateTime;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TicketPrice {
     private $price;
@@ -14,8 +17,9 @@ class TicketPrice {
     private $priceReduced;
     private $coefHalfPrice;
 
-    public function __construct(){
-        $value               = Yaml::parseFile(__DIR__.'/../../config.yaml');
+    public function __construct(ParameterBagInterface $parameterBag){
+        $projectDir          = $parameterBag->get('kernel.project_dir');
+        $value               = Yaml::parseFile($projectDir.'\config\contraints\config.yaml');
         $this->sinceSenior   = $value['TicketPrice']['ages']['sinceSenior'];
         $this->limitBaby     = $value['TicketPrice']['ages']['limitBaby'];
         $this->limitChildren = $value['TicketPrice']['ages']['limitChildren'];
@@ -29,18 +33,15 @@ class TicketPrice {
 
     public function getPrice($birthdate, $reduced, $halfday){
         $age = $this->getAge($birthdate);
-        if ($age < $this->limitBaby)     return $priceBaby;
+        if ($age < $this->limitBaby)     return $this->priceBaby;
         if ($age < $this->limitChildren) return $this->definePrice($this->priceChildren, $reduced, $halfday);
         if ($age > $this->sinceSenior)   return $this->definePrice($this->priceSenior, $reduced, $halfday);
+
         return $this->definePrice($this->priceNormal, $reduced, $halfday);
     }
 
     private function getAge($birthdate){
-        $age = date('Y') - $birthdate; 
-        if (date('md') < date('md', strtotime($birthdate))) { 
-            return $age - 1; 
-        } 
-        return $age;
+        return $birthdate->diff(new DateTime())->y;
     }
 
     private function definePrice($ref, $reduced, $halfday){
@@ -48,6 +49,7 @@ class TicketPrice {
         if ($halfday) $price = $price * $this->coefHalfDay;
         if ($reduced) $price = $price - $this->discount;
         if ($price < 0) return 0;
+        
         return $price;
     }
 }
