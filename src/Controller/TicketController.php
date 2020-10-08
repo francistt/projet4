@@ -37,37 +37,37 @@ class TicketController extends AbstractController
            $price = $ticketPrice->getPrice($user->getBirthdate(), $user->getDiscount(), $reservation->getHalfDay());
            $user->setPrice($price); 
            $user->setReservation($reservation);
+
+
            $manager->persist($user);
            $manager->flush();
 
            if ($reservation->getClients()->count() == $reservation->getNbTicket()) {
-               $request->getSession()->set('payer', true);
-               return $this->redirectToRoute('summary',['uuid'=>$reservation->getUuid()]);
-        
+               //$request->getSession()->set('payer', true);
+               return $this->render('stripe.html.twig');
            }
            else {
                 return $this->redirectToRoute('summary',['uuid'=>$reservation->getUuid()]);
            }
         }
 
-        // créer ton formulaire 
-        // s'il est soumis et qu'il est valide tu stock l'information et tu l'envoi à la page suivante !
-
         return $this->render('ticket/contactInfos.html.twig', [
             'formUser' => $form->createView(),
-            'users'    => $users
+            'users'    => $users,
+            'reservation' => $reservation,
+            'limit' => $reservation->getNbTicket(),
+            'ticketQty' => $reservation->getClients()->count()
         ]);
     }
 
     /**
      * @Route("/home/price", name="price")
      */
-    public function price(Request $request): Response
-    {
+    public function price(Request $request): Response {
         // on récupere $discount la date 
 
         /// 
 
-        // reourne
+        // retourne
     }
 }

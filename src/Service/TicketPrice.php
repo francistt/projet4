@@ -6,16 +6,16 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TicketPrice {
-    private $price;
-    private $ageSenior;
-    private $ageBaby;
-    private $ageChildren;
+    //private $price;
+    private $sinceSenior;
+    private $limitBaby;
+    private $limitChildren;
     private $priceSenior;
     private $priceBaby;
     private $priceChildren;
     private $priceNormal;
-    private $priceReduced;
-    private $coefHalfPrice;
+    private $discount;
+    private $coefHalfDay;
 
     public function __construct(ParameterBagInterface $parameterBag){
         $projectDir          = $parameterBag->get('kernel.project_dir');

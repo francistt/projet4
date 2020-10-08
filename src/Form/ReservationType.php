@@ -26,7 +26,7 @@ class ReservationType extends AbstractType
 
 
             ->add('reservation_date', DateType::class,[
-                'label' =>"Date de réservation",
+                'label' =>"Date de visite",
                 'widget' => 'single_text'
             ])
             
@@ -34,7 +34,7 @@ class ReservationType extends AbstractType
                 'label' =>"Type de billet",
                 'choices' => array_flip([
                     'Billet « Journée »',
-                    'Billet « Demi-journée ». Il vous permet d’entrer dans l’établissement à partir de 14h.'
+                    'Billet « Demi-journée » Il vous permet d’entrer dans l’établissement à partir de 14h.'
                 ]),
                 'expanded' => true
             ])
