@@ -24,8 +24,6 @@ class TicketController extends AbstractController
      */
     public function summarize(Reservation $reservation, Request $request, UserRepository $repository, EntityManagerInterface $manager, TicketPrice $ticketPrice): Response 
     {
-        $users = $repository->findBY(['reservation' => $reservation]);
-
         $user = new User();
         $form = $this->createform(UserType::class, $user);
 
@@ -44,7 +42,7 @@ class TicketController extends AbstractController
 
            if ($reservation->getClients()->count() == $reservation->getNbTicket()) {
                //$request->getSession()->set('payer', true);
-               return $this->render('stripe.html.twig');
+               //return $this->render('stripe.html.twig');
            }
            else {
                 return $this->redirectToRoute('summary',['uuid'=>$reservation->getUuid()]);
@@ -53,21 +51,18 @@ class TicketController extends AbstractController
 
         return $this->render('ticket/contactInfos.html.twig', [
             'formUser' => $form->createView(),
-            'users'    => $users,
             'reservation' => $reservation,
             'limit' => $reservation->getNbTicket(),
-            'ticketQty' => $reservation->getClients()->count()
         ]);
     }
 
     /**
-     * @Route("/home/price", name="price")
+     * @Route("/home/stripe", name="stripe", methods={"POST"})
      */
-    public function price(Request $request): Response {
+    public function stripe(Request $request)
+    {
+        $amount = $request->get('total');
+        return $this->render('stripe.html.twig');
         // on récupere $discount la date 
-
-        /// 
-
-        // retourne
     }
 }

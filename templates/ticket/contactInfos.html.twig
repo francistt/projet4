@@ -8,14 +8,12 @@
   <h1>Identification des visiteurs</h1>
     <div class="row mt-4">
       <div class="col-md-5">
-      
-
-          <div class="card text-white bg-secondary mb-3">
+          <div class="card text-white bg-secondary mb-3 {% if reservation.clients.count == reservation.nbTicket %}d-none{% endif %}">
            <h4 class="card-header">Coordonnées</h4>
             {{ form_start(formUser) }}
             <div class="card-body">
 
-              <p class="card-text">BILLET N° {{ticketQty + 1}}</br>
+              <p class="card-text">BILLET N° {{reservation.clients.count + 1}}</br>
         
               {{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
               {{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
@@ -28,7 +26,6 @@
             </div>
             {{ form_end(formUser) }}
           </div>
-
       </div>
 
       <div class="col-md-7">
@@ -41,20 +38,22 @@
               demi journée {{ reservation.halfDay }}</br>
               {% set numero = 0 %}
               {% set total = 0 %}
-              {% for user in users %}
+              {% for user in reservation.clients %}
               {% set numero = numero + 1 %}
               {% set total = total + user.price %} 
               visiteur {{numero}} : <strong>{{ user.lastName | upper }} {{ user.firstName  }} né le {{ user.birthdate | date("d/m/Y") }} Prix du billet : {{ user.price }}&euro;</strong></br>
               {% endfor %}
               <h5 class="card-footer">Total : {{total}} euros</h5>
-              {% if numero == limit %}
-              <button type="submit" class="btn btn-success">Payer</button>
-              {% else %}
-              <h5>suivant</h5>
+              {% if reservation.clients.count == reservation.nbTicket %}
+                <form action="{{ path('stripe') }}" method="POST">
+                    <input type="hidden" name="total" value="{{ total }}">
+                    <button type="submit" class="btn btn-success">Payer</button>
+                </form>
               {% endif %}
             </div>
           </div>
       </div>
+
     </div>  
 </div>
 {% endblock %}
