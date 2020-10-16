@@ -12,22 +12,24 @@ TicketPrice:
   coefficient: 
     halfDay: .5
 
-UnavailableDate: 
-  week: 
-   sunday: 'sun'
-   tuesday: 'tue'
+
+closedDay: 
+  - Sunday
+  - Tuesday
+
+Holidays:
+  - '01/01'
+  - '01/05'
+  - '08/05'
+  - '14/07'
+  - '15/08'
+  - '01/11'
+  - '11/11'
+  - '25/12'
 
 EntriesLimit: 1000
 
-Holidays:
-  newYear: '01/01'
-  laborDay: '01/05'
-  victoire: '08/05'
-  bastilleDay: '14/07'
-  ascension: '15/08'
-  toussaint: '01/11'
-  armistice: '11/11'
-  christmas: '25/12'
+
 
 
 

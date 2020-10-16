@@ -39,6 +39,7 @@ class Reservation
 
    /** 
      * @ORM\Column(type="date")
+     * @Assert\Date(message="Attention, la date doit être au bon format")
      */
     private $reservation_date;
 
