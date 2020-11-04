@@ -5,24 +5,55 @@
 
 {% block body %}
     <div class="jumbotron text-center">
-    <h1 class="display-4">Bienvenue sur la billetterie du musée du Louvre</h1>
-    <P class "lead">Le musée du Louvre vous accueille tous les jours, sauf les mardis et quelques jours fériés (les 1er mai, 1er novembre et 25 décembre),<br>
-    de 9h à 18h, jusqu'à 21h45 les jeudis et vendredis.<br>
-    La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p>
-    <br>
+        <h1 class="display-5">Bienvenue sur la billetterie du musée du Louvre</h1>
+        <P class "lead">Le musée du Louvre vous accueille tous les jours, sauf les mardis, les dimanches et jours fériés,<br>
+        de 9h à 18h, jusqu'à 21h45 les jeudis et vendredis.<br>
+        La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p>
+        <br>
     </div>
-    <h2>Acheter vos billets électroniques</h2>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Suivant</button>
-    {{ form_end(form) }}
+        <div class="container">
+            <h2>Acheter vos billets électroniques</h2>
+            <div class="presentation">
+                <div class="form-row">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-success">Suivant</button>
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white bg-primary mb-6 mt-4">
+                    <h4 class="card-header">Information tarif</h4>
+                        <ul>
+                            <br>
+                            <li><strong>tarif « <em>normal</em> » à partir de {{limitChildren}} ans à {{normal}} €</strong></li>
+                            <hr>
+                            <li><strong>tarif « <em>enfant</em> » à partir de {{limitBaby}} ans et jusqu’à {{limitChildren}} ans, à {{children}} €</strong>
+                            <br>
+                            (l’entrée est gratuite pour les enfants de moins de {{limitBaby}} ans)</li>
+                            <hr>
+                            <li><strong>tarif « <em>senior</em> » à partir de {{sinceSenior}} ans à {{senior}} €</strong></li>
+                            <hr>
+                            <li><strong>tarif « <em>réduit</em> » de {{discount}} €</strong> (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire, sur présentation d'un justificatif)<br>
+                            (une pièce d'identitée vous sera demandée à l'entrée)</li>
+                            <br>
+                        </ul>
+                    </div>
+            </div>
+        </div>
 {% endblock %}
 
 {% block javascripts %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 
- 
+    <script>
+        $(document).ready(function(){
+            $('#reservation_reservation_date').datepicker({
+                format: 'dd/mm/yyyy',
+                
+                startDate: new Date()
+            });
+        })
+    </script>
 
 {% endblock %}

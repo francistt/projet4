@@ -18,7 +18,7 @@ class TicketPrice {
 
     public function __construct(ParameterBagInterface $parameterBag){
         $projectDir          = $parameterBag->get('kernel.project_dir');
-        $value               = Yaml::parseFile($projectDir.'/config/contraints/config.yaml');
+        $value               = Yaml::parseFile($projectDir.'\config\contraints\config.yaml');
         $this->sinceSenior   = $value['TicketPrice']['ages']['sinceSenior'];
         $this->limitBaby     = $value['TicketPrice']['ages']['limitBaby'];
         $this->limitChildren = $value['TicketPrice']['ages']['limitChildren'];

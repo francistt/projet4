@@ -2,25 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Reservation;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+use App\Entity\Reservation;
 use App\Service\TicketPrice;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TicketController extends AbstractController
 {
 
     /**
-     * @Route("/home/user/{uuid}", name="summary")
+     * @Route("/user/{uuid}", name="summary")
      */
     public function summarize(Reservation $reservation, Request $request, UserRepository $repository, EntityManagerInterface $manager, TicketPrice $ticketPrice): Response 
     {
@@ -57,7 +55,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/home/stripe", name="stripe", methods={"POST"})
+     * @Route("/stripe", name="stripe", methods={"POST", "GET"})
      */
     public function stripe(Request $request)
     {

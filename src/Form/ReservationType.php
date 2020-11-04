@@ -4,16 +4,21 @@ namespace App\Form;
 
 use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use App\Form\DataTransformer\FrenchToDateTimeTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ReservationType extends AbstractType
 {
+    private $transformer;
+
+    public function __construct(FrenchToDateTimeTransformer $transformer) {
+        $this->transformer = $transformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,13 +26,16 @@ class ReservationType extends AbstractType
                'label' => false
            ])
             ->add('nbTicket', IntegerType::class,[
-                'label' =>"Nombre de billet(s)"
+                'label' =>"Nombre de billet(s)",
+                    'attr' => [
+                    'min' => 0,
+                    'max' => 1000,
+                    'step' => 1
+                ]
             ])
 
-
-            ->add('reservation_date', DateType::class,[
-                'label' =>"Date de visite",
-                'widget' => 'single_text'
+            ->add('reservation_date', TextType::class,[
+                'label' =>"Date de visite"           
             ])
             
             ->add('halfDay', ChoiceType::class, [
@@ -39,6 +47,8 @@ class ReservationType extends AbstractType
                 'expanded' => true
             ])
         ;
+
+        $builder->get('reservation_date')->addModelTransformer($this->transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)

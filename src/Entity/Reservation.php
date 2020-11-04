@@ -40,6 +40,7 @@ class Reservation
    /** 
      * @ORM\Column(type="date")
      * @Assert\Date(message="Attention, la date doit être au bon format")
+     * @Assert\GreaterThanOrEqual("today", message="La date de réservation doit être ultérieure ou égale à la date d'aujourd'hui !")
      */
     private $reservation_date;
 
@@ -50,12 +51,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 20,
-     *      minMessage = "Vous devez choisir un ticket minimum {{ limit }}",
-     *      maxMessage = "Vous êtes limiter à {{ limit }}",
-     * )
+     * @Assert\Positive(message="il faut un minimum de 1 billet")
      */
     private $nbTicket;
 

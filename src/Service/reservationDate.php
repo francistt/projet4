@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\Reservation;
+use App\Repository\ReservationRepository;
+use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -10,18 +14,26 @@ class ReservationDate
 {
 
   private $publicHoliday;
+  private $reservationRepository;
+  private $value;
 
-  public function __construct(ParameterBagInterface $parameterBag)
+  public function __construct(ParameterBagInterface $parameterBag, ReservationRepository $reservationRepository)
   {
-    $projectDir          = $parameterBag->get('kernel.project_dir');
-
-    $value             = Yaml::parseFile($projectDir . '\config\contraints\config.yaml');
+    // DateTime::setTimezone ();
+    $projectDir        = $parameterBag->get('kernel.project_dir');
+    $value             = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
+    $this->value = $value;
     $this->publicHoliday = $value["Holidays"];
     $this->closedDay = $value["closedDay"];
+    $this->bookingHourMax = $value["BookingHourMax"];
+    $this->reservationRepository = $reservationRepository;
   }
 
-  public function dateIsValid(DateTimeInterface $date)
+  public function dateIsValid(Reservation $reservation)
   {
+    $date = $reservation->getReservationDate()->setTimezone(new DateTimeZone('Europe/Paris'));
+    $nbTicket = $reservation->getNbTicket();
+
     // check public holiday
     $dayMonth = $date->format('d/m');
     if (in_array($dayMonth, $this->getPublicHoliday())) {
@@ -37,8 +49,26 @@ class ReservationDate
 
     if ($this->paques($date->format("Y"),$date->format("m"),$date->format("d"))) {
       return ['open' => false, 'info' => 'Le musée est fermé les jours fériés'];
-
     }
+
+    if (intval ($date->format('H')) >= $this->bookingHourMax) {
+       return ['open' => false, 'info' => 'Vous ne pouvez plus réserver pour le jour même'];
+    }
+
+    $nbTicketTotal = $this->reservationRepository->getTotalTicket($date) + $nbTicket;
+
+    if ($nbTicketTotal >= $this->value['EntriesLimit']) {
+      return ['open' => false, 'info' => 'Le nombre maximum de visiteur est atteint'];
+    }
+
+    $today = new DateTime('', new DateTimeZone('Europe/Paris'));
+
+    if ($today->format('d/m/Y') === $date->format('d/m/Y') 
+    && '14:00:00' <= $date->format('H:i:s') 
+    && !$reservation->getHalfDay()) {
+      return ['open' => false, 'info' => "Demi tarif obligatoire"];
+    }
+
 
     return ['open' => true, 'info' => ''];
   }
@@ -47,7 +77,6 @@ class ReservationDate
   {
     return $this->publicHoliday;
   }
-
 
 /**
  * vérifie que la date demandée n'est pas le jour de pâques
@@ -81,6 +110,8 @@ class ReservationDate
 
     if ($d == 29 && $e == 6) {
       $day = 10;
+
+    
       $month = 04;
     } elseif ($d == 28 && $e == 6) {
       $day = 18;
@@ -88,14 +119,44 @@ class ReservationDate
     }
 
     if ($day === intval($dayBooking) && $month === intval($monthBooking)) return true;
-    elseif (($day + 1) === intval($dayBooking) && $month === intval($monthBooking)) return true;
-    elseif (($day + 9) === intval($dayBooking) && ($month + 1) === intval($monthBooking)) return true;
-    elseif (($day - 12) === intval($dayBooking) && ($month + 2) === intval($monthBooking)) return true;
-    elseif (($day - 11) === intval($dayBooking) && ($month + 2) === intval($monthBooking)) return true;
+    if (($day + 1) === intval($dayBooking) && $month === intval($monthBooking)) return true;
+    if (($day + 9) === intval($dayBooking) && ($month + 1) === intval($monthBooking)) return true;
+    if (($day - 12) === intval($dayBooking) && ($month + 2) === intval($monthBooking)) return true;
+    if (($day - 11) === intval($dayBooking) && ($month + 2) === intval($monthBooking)) return true;
     return false;
   }
 
+  //public function maxEntry($value, DateTimeInterface $date, EntityManagerInterface $manager) {
+  //  $qb = $manager->createQueryBuilder();
+  //  $qb->select('count(reservation.nb_ticket)');
+  //  $qb->from('Reservation','Reservation');
+    
+  //  $count = $qb->getQuery()->getSingleScalarResult();
+  //  die(var_dump($count));
+  //}
 
+  //$manager = $this->manager->getRepository(Reservation::class);
+  //$nbrTicket = count($manager->getNbTicket($value->getReservationDate()));
+
+  //$nbrTicket += $value->getNbTicket();
+
+  //  if ($nbrTicket > 1000) {
+  //  return ['info' => 'Le nombre maximum de visiteur est atteint'];
+  //  }
+  //}
+
+
+}
+
+
+
+  //private function timeEntry(){
+  //  $todayDate = new DateTime();
+  //  $time = $todayDate->format('H');
+
+  //  if ($time >= 14) return true;
+  //  return false;
+  //}
   
 
   /* 
@@ -103,4 +164,3 @@ class ReservationDate
     maxJournee: 14 #après 14h c'est forcément une demi journée
     maxResa: 18  #après 18h on ne peu plus réserver pour le jour même
   */
-}
