@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Service\ReservationDate;
+use App\Service\SessionManager;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,14 +22,15 @@ class ReservationController extends AbstractController
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function home(Request $request, EntityManagerInterface $manager, ReservationDate $reservationDate, ParameterBagInterface $parameterBag): Response {
+    public function home(Request $request, EntityManagerInterface $manager, ReservationDate $reservationDate, ParameterBagInterface $parameterBag, SessionManager $session): Response
+    {
         $reservation = new Reservation();
         //on récupère le formulaire
         $form = $this->createForm(ReservationType::class, $reservation);
 
         //on récupère les prix de config.yaml
         $projectDir          = $parameterBag->get('kernel.project_dir');
-        $value               = Yaml::parseFile($projectDir.'/config/contraints/config.yaml');
+        $value               = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
 
         //on relie l'objet à la requête
         $form->handleRequest($request);
@@ -40,18 +41,18 @@ class ReservationController extends AbstractController
             if (!$resultat['open']) {
                 $formError = new FormError($resultat['info']);
                 $form->get('reservation_date')->addError($formError);
-            } else  {
+            } else {
                 $reservation->setUuid(uniqid());
                 //on enregistre en BDD
                 $manager->persist($reservation);
                 $manager->flush();
-                
-                return $this->redirectToRoute('summary',['uuid'=>$reservation->getUuid()]);
+
+                return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
             }
         }
 
         //on rend la vue
-        return $this->render('reservation/home.html.twig', [
+        return $this->render('reservation.html.twig', [
             'reservation'   => $reservation,
             'form'          => $form->createView(),
             'normal'        => $value['TicketPrice']['prices']['normal'],

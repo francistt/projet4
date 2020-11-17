@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
 use DateTime;
-use DateTimeInterface;
 use DateTimeZone;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

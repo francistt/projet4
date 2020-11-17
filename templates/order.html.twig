@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block javascript %}
+   {{ parent() }}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block title %}Identification
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Identification des visiteurs</h1>
+      <div class="row mt-4">
+        <div class="col-md-5">
+            <div class="card text-white bg-secondary mb-3 {% if reservation.clients.count == reservation.nbTicket %}d-none{% endif %}">
+            <h4 class="card-header">Coordonnées</h4>
+              {{ form_start(formUser) }}
+              <div class="card-body">
+
+                <p class="card-text">BILLET N° {{reservation.clients.count + 1}}</br>
+          
+                {{ form_row(formUser.lastName, {'label': 'Nom','attr' : {'placeholder': "nom"}}) }}
+                {{ form_row(formUser.firstName, {'label': 'Prénom','attr' : {'placeholder': "prénom"}}) }}
+                {{ form_row(formUser.birthdate, {'label': 'Date de naissance'}) }}
+                {{ form_row(formUser.country, {'label': 'Pays','attr' : {'placeholder': "pays"}}) }}
+                {{ form_row(formUser.discount, {'label': 'Tarif réduit','attr' : {'placeholder': "Tarif réduit"}}) }}
+                <p>Un tarif « réduit » de 10 € accordé dans certaines conditions (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)</p>
+
+                <button type="submit" class="btn btn-success">Suivant</button>
+              </div>
+              {{ form_end(formUser) }}
+            </div>
+            {% if reservation.clients.count == reservation.nbTicket %}
+              <a href="#">
+                <img src="/image/joconde.jpg" class="joconde-picture" alt="joconde-picture">
+              </a>
+            {% endif %}
+        </div>
+
+        <div class="col-md-7">
+            <div class="card text-white bg-primary mb-3">
+            <h4 class="card-header">Résumé de votre réservation</h4>
+              <div class="card-body">
+                <p class="card-text">Date de visite : <strong>le {{ reservation.reservationDate | date('d/m/Y') }}</strong></br>
+                Numéro de réservation : <strong>{{ reservation.uuid }}</strong></br>
+                {% set numero = 0 %}
+                {% set total = 0 %}
+                {% if reservation.halfDay == 1 %}<strong>Tarif demi journée appliqué - Entrée à partir de 14h seulement</strong>{% endif %}
+                <hr>
+                {% for user in reservation.clients %}
+                  {% set numero = numero + 1 %}
+                  {% set total = total + user.price %} 
+                  Visiteur {{numero}} : <strong>{{ user.lastName | upper }} {{ user.firstName | lower }}&emsp;</strong> né le <strong>{{ user.birthdate | date("d/m/Y") }}&emsp;</strong> Prix du billet : <strong>{{ user.price }}&euro;</strong></br>
+                {% endfor %}
+                <hr>
+                <h6 class="card-footer text-center">Total : {{total}} euros</h6>
+                {% if reservation.clients.count == reservation.nbTicket %}
+                    <button class="btn btn-success btn-block mt-3" id="checkout-button"><strong>Payer : {{ total }} &euro;</strong></button> 
+                {% endif %}
+              </div>
+            </div>
+        </div>
+      </div>  
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript">
+      var stripe = Stripe("pk_test_51HeLh9Ahufd1YJu1upvLnvCRa7zfk6gO6liv68Lxshy5wUv90Tt7W2oiNmNwHocTW0QUJG0TuELRquHfj5VoDt1S00ZiDe61WY");
+      var checkoutButton = document.getElementById("checkout-button");
+      checkoutButton.addEventListener("click", function () {
+          fetch("/commande/create/session", {
+              method: "POST",
+          })
+          .then(function (response) {
+          return response.json();
+          })
+          .then(function (session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+          })
+          .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+              alert(result.error.message);
+          }
+          })
+          .catch(function (error) {
+          console.error("Error:", error);
+          });
+      });
+  </script>
+{% endblock %}

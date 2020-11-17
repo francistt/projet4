@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement Billetterie du Louvre
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="css/stripe.css">
+
+{% endblock %}
+{% block javascripts %}
+	<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+	<script src="https://js.stripe.com/v3/"></script>
+	<script src="/js/stripe.js" defer></script>
+{% endblock %}
+{% block body %}
+	<section>
+		<div class="product">
+			<img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments"/>
+			<div class="description">
+				<h3>Stubborn Attachments</h3>
+				<h5>{{ total }}€</h5>
+			</div>
+		</div>
+		<button id="checkout-button">Payer</button>
+	</section>
+{% endblock %}
