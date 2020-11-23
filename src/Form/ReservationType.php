@@ -26,7 +26,7 @@ class ReservationType extends AbstractType
                'label' => false
            ])
             ->add('nbTicket', IntegerType::class,[
-                'label' =>"Nombre de billet(s)",
+                'label' =>"Nombre de billet(s) :",
                     'attr' => [
                     'min' => 0,
                     'max' => 1000,
@@ -35,11 +35,11 @@ class ReservationType extends AbstractType
             ])
 
             ->add('reservation_date', TextType::class,[
-                'label' =>"Date de visite"           
+                'label' =>"Date de visite :"           
             ])
             
             ->add('halfDay', ChoiceType::class, [
-                'label' =>"Type de billet",
+                'label' =>"Type de billet :",
                 'choices' => array_flip([
                     'Billet « Journée »',
                     'Billet « Demi-journée » Il vous permet d’entrer dans l’établissement à partir de 14h.'

@@ -10,7 +10,6 @@ use App\Service\TicketPrice;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\SessionManager;
@@ -20,7 +19,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/commande/{uuid}", name="summary")
      */
-    public function summarize(Reservation $reservation, Request $request, UserRepository $repository, EntityManagerInterface $manager, TicketPrice $ticketPrice, SessionManager $sesssion): Response
+    public function summarize(Reservation $reservation, Request $request, UserRepository $repository, EntityManagerInterface $manager, TicketPrice $ticketPrice, SessionManager $session)
     {
         $user = new User();
         $form = $this->createform(UserType::class, $user);
@@ -28,30 +27,37 @@ class OrderController extends AbstractController
         //on relie l'objet à la requête
         $form->handleRequest($request);
 
+        //if (!$session->newInput()) { //on dépasse
+          //  return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
+        //}
+
+        $isFinish = false;
+
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($reservation->getClients()->count() < $reservation->getNbTicket()) {
+                $price = $ticketPrice->getPrice($user->getBirthdate(), $user->getDiscount(), $reservation->getHalfDay());
+                $user->setPrice($price);
+                $user->setReservation($reservation);
 
-            $price = $ticketPrice->getPrice($user->getBirthdate(), $user->getDiscount(), $reservation->getHalfDay());
-            $user->setPrice($price);
-            $user->setReservation($reservation);
+                $session->addTicket($price);
+                $reservation->setTotal($session->getTotal());
+               
+                $manager->persist($user);
+                $manager->flush();
 
-            $sesssion->addTicket($price);
-
-            $manager->persist($user);
-            $manager->flush();
-
-
-
-            if ($reservation->getClients()->count() == $reservation->getNbTicket()) {
-                //$request->getSession()->set('payer', true);
-            } else {
                 return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
+            } else {
+                $isFinish = true;
             }
         }
 
         return $this->render('order.html.twig', [
             'formUser' => $form->createView(),
             'reservation' => $reservation,
-            'limit' => $reservation->getNbTicket()
+            'uuid' => $reservation->getUuid(),
+            'limit' => $reservation->getNbTicket(),
+            'is_finish' => $isFinish
         ]);
+        
     }
 }

@@ -65,7 +65,7 @@ class ReservationDate
     if ($today->format('d/m/Y') === $date->format('d/m/Y') 
     && '14:00:00' <= $date->format('H:i:s') 
     && !$reservation->getHalfDay()) {
-      return ['open' => false, 'info' => "Demi tarif obligatoire"];
+      return ['open' => false, 'info' => "Demi tarif obligatoire après 14h"];
     }
 
 

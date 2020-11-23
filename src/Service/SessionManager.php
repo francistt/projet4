@@ -23,4 +23,20 @@ class SessionManager {
         $total = $this->session->get("total") + $montant;
         $this->session->set("total", $total);
     }
+    public function setOrder($data) {
+        foreach($data as $entry=>$value) {
+            $this->session->set($entry, $value);
+        }
+        $this->session->set("currentInput", 0);
+    }
+    public function getData($data) {
+        return $this->session->get($data);
+    }
+
+    public function newInput() {
+        $current = $this->session->get("currentInput", 0)+1;
+        $this->session->set("currentInput", $current);
+        if ($current > $this->session->get("nbTickets")) return false;
+        return true;
+    }
 } 

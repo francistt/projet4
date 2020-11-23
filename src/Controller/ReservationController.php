@@ -24,8 +24,10 @@ class ReservationController extends AbstractController
      */
     public function home(Request $request, EntityManagerInterface $manager, ReservationDate $reservationDate, ParameterBagInterface $parameterBag, SessionManager $session): Response
     {
+        $request->getSession()->set('total', 0);    
         $reservation = new Reservation();
         //on récupère le formulaire
+        
         $form = $this->createForm(ReservationType::class, $reservation);
 
         //on récupère les prix de config.yaml
@@ -43,10 +45,19 @@ class ReservationController extends AbstractController
                 $form->get('reservation_date')->addError($formError);
             } else {
                 $reservation->setUuid(uniqid());
+                $reservation->setIsPaid(0);
                 //on enregistre en BDD
+               
                 $manager->persist($reservation);
                 $manager->flush();
-
+                //dd($form->get('reserver')->get('email')->getData());
+                $session->setOrder([
+                    "email" => $form->get('reserver')->get('email')->getData(),
+                    "lastName" => $form->get('reserver')->get('lastName')->getData(),
+                    "firstName" => $form->get('reserver')->get('firstName')->getData(),
+                    "nbTicket" => $form->get('nbTicket')->getData()
+                ]);
+                //dd($session, $session->getData('email'));
                 return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
             }
         }

@@ -9,16 +9,11 @@
 }
 
 .louvre-logo {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    width: 30%;
-    border-style: solid;
-}
-
-.presentation {
-    display: flex;
-    justify-content: space-around;
+    margin-top: 1.5rem;
     width: 100%;
+    border-style: solid;
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 0.3rem;
 }
 
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
@@ -31,4 +26,21 @@
     border-radius: 2%;
     border-style: solid;
 }
+
+.text-center {
+    text-align: center !important;
+}
+
+.jumbotronbis {
+    border: 1px solid rgba(0,0,0,0.6);
+    padding: 0rem 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: #1c1e22;
+    border-radius: 0.3rem;
+}
+
+/*.jumbotron {
+    /* padding: 4rem 2rem; */
+/*}
 
