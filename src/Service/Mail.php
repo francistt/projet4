@@ -4,8 +4,6 @@ namespace App\Service;
 
 use Mailjet\Client;
 use Mailjet\Resources;
-use App\Entity\Reservation;
-use App\Service\SessionManager;
 
 class Mail
 {
@@ -24,11 +22,11 @@ class Mail
                     ],
                     'To' => [
                         [
-                            'Email' => $to_email,
-                            'Name' => $to_name
+                            'Email' => "$to_email",
+                            'Name' => "$to_name"
                         ]
                     ],
-                    'TemplateID' => 19550085,
+                    'TemplateID' => 1965729,
                     'TemplateLanguage' => true,
                     'Subject' => $subject,
                     'Variables' => [
@@ -42,6 +40,6 @@ class Mail
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && dd($response->getData());
+        $response->success();
     }
 }

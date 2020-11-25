@@ -1,19 +1,21 @@
-{% block title %}Confirmation de paiement{% endblock %}
+<h2>Confirmation de paiement</h2>
 
 {% block content %}
   <div class="card text-white bg-primary mb-6 mt-4">               
-    <h4 class="card-header">Confirmation de paiement</h4>
     <hr>
     <p class="lead ml-3 mt-3">
-        Bonjour {{ firstName }} {{ lastName }},<br/><br/>
-        Nous vous remercions pour votre achat.
-        Les détails de votre commande sont récapitulés ci-dessous.
-        <br>
-        <h5>DÉTAILS DE VOTRE COMMANDE</h5>
-        <hr>
-        Numéro de réservation : {{ order.uuid }}
-        Date de la réservation :
-      {{ order.nbTicket }} {% if order.nbTicket == 1 %}billet{% else %}billets{% endif %} d'entrée pour le {{ reservationDate|date('d/m/Y') }} dont la référence est : <span class="badge badge-light">{{ order.uuid }}</span>
+      Bonjour {{ firstName }},
+      <br/>
+      <br/>
+      Le musée du Louvre vous remercie pour votre achat.<br/>
+      Veuillez trouvez ci dessous le détail de votre commande.<br/>
+      Nous vous souhaitons une agréable visite.<br/>
+      <h5>DÉTAILS DE VOTRE COMMANDE</h5>
+      <hr>
+      N° de réservation : <strong>{{ order.uuid }}</strong></br></br>
+      Date de la réservation : <strong>{{ reservationDate|date('d/m/Y') }}</strong></br></br>
+      {% set pluriel = order.nbTicket > 1? "s" : "" %}
+      {{ order.nbTicket }} billet{{ pluriel }} d'entrée :
       <br/>
       <br/>
       {% set numero = 0 %}
@@ -22,20 +24,12 @@
           - Bénéficiaire n° {{numero}} : <strong>{{ user.lastName | upper }} {{ user.firstName | lower }}</strong></br>       
       {% endfor %}
       <br/>
-      Veuillez vous présenter avec ce mail pour valider vos entrées
+      <hr>
+      Total payé : {{ order.total }} €
+      <hr>
       <br/>
-      Nous vous souhaitons une agréable visite
       <br/>
-      <a class="btn btn-outline-info" href="https://www.louvre.fr/preparer-sa-visite" role="button">Préparez votre visite</a>
+      Veuillez vous présenter avec ce mail pour valider vos entrées.
     </p>
   </div> 
 {% endblock %}
-
-Un email de confirmation sera envoyé à l’utilisateur et fera foi de billet.
-Le mail doit indiquer:
-Le nom et le logo du musée
-
-Le tarif
-Le nom de chaque visiteur
-
-Livrables attendus

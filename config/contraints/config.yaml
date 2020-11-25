@@ -31,9 +31,6 @@ EntriesLimit: 1000
 
 BookingHourMax: 22
 
-parameters:
-  stripe_public_key: 'zrgerhgerher'
-
 
 
 

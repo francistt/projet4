@@ -38,8 +38,16 @@ class OrderSuccessController extends AbstractController
 
             // Envoyer un email au client pour lui confirmer sa commande
             $mail = new Mail();
-            $content = "Bonjour ".$session->getData('firstName')."<br><br/>Merci pour votre commande.<br><br/>Lorem ipsum.";
-            $mail->send($session->getData('email'), $session->getData('firstName'), 'Votre commande The Shop est bien validée.', $content);
+                $content = $this->renderView('mail.html.twig', [
+                'reservation' => $reservation,
+                'session' => $session,
+                'order' => $order,
+                'reservationDate' => $session->getData('reservation_date'),
+                'firstName' => $session->getData('firstName'),
+                'lastName' => $session->getData('lastName'),
+                'email' => $session->getData('email')
+             ]);
+            $mail->send($session->getData('email'), $session->getData('firstName'), "Vos billets", $content);
         }
 
         // Afficher les quelques informations de la commande de l'utilisateur

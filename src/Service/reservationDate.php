@@ -28,6 +28,12 @@ class ReservationDate
     $this->reservationRepository = $reservationRepository;
   }
 
+  /**
+   * Undocumented function
+   *
+   * @param Reservation $reservation
+   * @return Array
+   */
   public function dateIsValid(Reservation $reservation)
   {
     $date = $reservation->getReservationDate()->setTimezone(new DateTimeZone('Europe/Paris'));
@@ -65,13 +71,18 @@ class ReservationDate
     if ($today->format('d/m/Y') === $date->format('d/m/Y') 
     && '14:00:00' <= $date->format('H:i:s') 
     && !$reservation->getHalfDay()) {
-      return ['open' => false, 'info' => "Demi tarif obligatoire après 14h"];
+      return ['open' => false, 'info' => "Demi tarif applicable après 14h"];
     }
 
 
     return ['open' => true, 'info' => ''];
   }
 
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
   public function getPublicHoliday()
   {
     return $this->publicHoliday;

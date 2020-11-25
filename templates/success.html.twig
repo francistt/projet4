@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
-  <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>
+
 {% block title %}Confirmation de commande{% endblock %}
 
 {% block content %}
   <div class="card text-white bg-primary mb-6 mt-4">               
     <h4 class="card-header">Confirmation de votre commande</h4>
     <p class="lead ml-3 mt-3">
-      Bonjour {{ firstName }} {{ lastName }},<br/><br/>
+      Bonjour {{ firstName }},<br/><br/>
       Nous vous remercions pour votre achat et nous vous confirmons la commande suivante :<br/><br/>
-      {{ order.nbTicket }} {% if order.nbTicket == 1 %}billet{% else %}billets{% endif %} d'entrée pour le {{ reservationDate|date('d/m/Y') }} dont la référence est : <span class="badge badge-light">{{ order.uuid }}</span>
+      {% set pluriel = order.nbTicket > 1? "s" : "" %}
+      {{ order.nbTicket }} billet{{ pluriel }} d'entrée pour le {{ reservationDate|date('d/m/Y') }} dont la référence est : <span class="badge badge-light">{{ order.uuid }}</span>
       <br/>
       <br/>
       {% set numero = 0 %}

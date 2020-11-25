@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Dotenv\Dotenv;
 
 class StripeController extends AbstractController
 {
@@ -18,9 +19,15 @@ class StripeController extends AbstractController
      */
     public function index(EntityManagerInterface $manager, SessionManager $session, $uuid)
     {
-        Stripe::setApiKey('sk_test_51HeLh9Ahufd1YJu1368gsHaeysM6kOR2UkCERDqYGrqCj4CLPQcSpBFUaKxvtxsRUxlNHHW3KDFyd30rEkiJs8my00P9En7Ihd');
-        $YOUR_DOMAIN = 'http://127.0.0.1:8001';
 
+
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../../.env');
+
+
+        Stripe::setApiKey($_ENV['STRIPESECRET']);
+        $YOUR_DOMAIN = $_ENV['DOMAIN'];
+        
         $order = $manager->getRepository(Reservation::class)->findOneByUuid($uuid);
 
         if(!$order) {
@@ -36,7 +43,7 @@ class StripeController extends AbstractController
                     'unit_amount' => $session->getData('total') * 100,
                     'product_data' => [
                         'name' => 'Billet(s) pour le musée du Louvre',
-                        'images' => ["https://lh3.googleusercontent.com/proxy/87PjhvzRBcd7htJ4_1m6B_IMYnyl5foUdKYqn6ZA0SUpwEhCXbkmVjFxZLF9h_7uQd5UrQAjOyHpxIUrfJXMW6SuspTc5sHrjPiXPuWqqPxp9iOobHyOA6OHQOeNk_YIIzhnxRmq6qsjF0Y0gkioThCxoZxUBCKpqUsxIBGP14bVY5SOOQD79jaQEEc_ZxyQv1XjtMd6NZ6v-WQfoTxufQ-mmcSmNhgKU0-V4gXlbCH7rZDNPOBptAPUC7i4g_MFXIzHvwznWOMWoCwtzwdlVqY5BXk3TD2R6CgpnDFtAvui_-0aXSVZZZYB8zXWbw"],
+                        'images' => [$YOUR_DOMAIN.'/image/Louvrestripe.jpg'],
                     ],
                 ],
                 'quantity' => 1,

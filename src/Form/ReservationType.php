@@ -29,7 +29,7 @@ class ReservationType extends AbstractType
                 'label' =>"Nombre de billet(s) :",
                     'attr' => [
                     'min' => 0,
-                    'max' => 1000,
+                    'max' => 10,
                     'step' => 1
                 ]
             ])
