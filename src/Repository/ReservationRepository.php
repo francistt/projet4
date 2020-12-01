@@ -22,11 +22,16 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function getTotalTicket(DateTimeInterface $dateTimeInterface)
     {
+
         $qb = $this->createQueryBuilder('r');
         $qb
            ->select('SUM(r.nbTicket) AS nb_ticket')
            ->where('r.reservation_date = :date')
+           ->andWhere('r.isPaid = :paid')
+           ->setParameter('paid', true)
            ->setParameter('date', $dateTimeInterface->format('Y-m-d'));
+
+           //dd($dateTimeInterface->format('Y-m-d'), $qb->getQuery()->getResult(), $qb->getQuery()->getSql());
            
         return (int) $qb->getQuery()->getResult()[0]['nb_ticket'];
     }

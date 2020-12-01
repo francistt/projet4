@@ -6,7 +6,7 @@
   <div class="card text-white bg-primary mb-6 mt-4">               
     <h4 class="card-header">Confirmation de votre commande</h4>
     <p class="lead ml-3 mt-3">
-      Bonjour {{ firstName }},<br/><br/>
+      Bonjour {{ session.getData('firstName') }},<br/><br/>
       Nous vous remercions pour votre achat et nous vous confirmons la commande suivante :<br/><br/>
       {% set pluriel = order.nbTicket > 1? "s" : "" %}
       {{ order.nbTicket }} billet{{ pluriel }} d'entrée pour le {{ reservationDate|date('d/m/Y') }} dont la référence est : <span class="badge badge-light">{{ order.uuid }}</span>

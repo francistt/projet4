@@ -13,7 +13,7 @@ TicketPrice:
     halfDay: .5
 
 
-closedDay: 
+ClosedDay: 
   - Sunday
   - Tuesday
 
@@ -29,8 +29,7 @@ Holidays:
 
 EntriesLimit: 1000
 
-BookingHourMax: 22
-
+BookingHourMax: '21:30'
 
 
 

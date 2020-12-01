@@ -21,11 +21,13 @@ class StripeController extends AbstractController
     {
 
 
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__.'/../../.env');
+        //$dotenv = new Dotenv();
+        //$dotenv->load(__DIR__.'/../../.env');
+
+        $key = $this->getParameter('app.api.key.stripe.test');
 
 
-        Stripe::setApiKey($_ENV['STRIPESECRET']);
+        Stripe::setApiKey($key);
         $YOUR_DOMAIN = $_ENV['DOMAIN'];
         
         $order = $manager->getRepository(Reservation::class)->findOneByUuid($uuid);

@@ -36,7 +36,7 @@
             </div>
             {% if reservation.clients.count == reservation.nbTicket %}
               <a href="#">
-                <img src="/image/joconde.jpg" class="joconde-picture" alt="joconde-picture">
+                <img src="/image/joconde.jpg" class="joconde-picture mb-3" alt="joconde-picture">
               </a>
             {% endif %}
         </div>
@@ -64,7 +64,11 @@
                 <hr>
                 <h6 class="card-footer">Total : {{total|number_format(2, ',', '.') }} €</h6>
                 {% if reservation.clients.count == reservation.nbTicket %}
+                  {% if total == 0 %}
+                    <button type="submit" class="btn btn-success btn-block">Recevoir un email de confirmation</button>
+                  {% else %}    
                     <button class="btn btn-success btn-block mt-3" id="checkout-button"><strong>Confirmer votre commande et payer : {{ total|number_format(2, ',', '.') }} &euro;</strong></button> 
+                  {% endif %}
                 {% endif %}
               </div>
             </div>

@@ -62,6 +62,16 @@ class ReservationController extends AbstractController
             }
         }
 
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $holidays = $value['ClosedDay'];
+        $results = [];
+        foreach($days as $key => $day) {
+            if (\in_array($day, $holidays, true)) {
+                $results[] = $key;
+            }
+        }
+
+
         //on rend la vue
         return $this->render('reservation.html.twig', [
             'reservation'   => $reservation,
@@ -73,6 +83,7 @@ class ReservationController extends AbstractController
             'senior'        => $value['TicketPrice']['prices']['senior'],
             'sinceSenior'   => $value['TicketPrice']['ages']['sinceSenior'],
             'discount'      => $value['TicketPrice']['prices']['discount'],
+            'results'       => $results,
         ]);
     }
 }

@@ -45,10 +45,10 @@ class TicketPrice {
 
     private function definePrice($ref, $reduced, $halfday){
         $price = $ref;
+        //pourquoi ne pas mettre $price directement ?
         if ($halfday) $price = $price * $this->coefHalfDay;
         if ($reduced) $price = $price - $this->discount;
         if ($price < 0) return 0;
-        
         return $price;
     }
 }

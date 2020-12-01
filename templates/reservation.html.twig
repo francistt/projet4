@@ -60,10 +60,11 @@
         weekStart: 1
         };
         $(document).ready(function(){
+   
             $('#reservation_reservation_date').datepicker({
                 format: 'dd/mm/yyyy',
                 todayHighlight: true,
-                daysOfWeekDisabled: ['0','2'],
+                daysOfWeekDisabled: [{{results|join(',')}}],
                 language:['fr'],
                 
                 startDate: new Date()

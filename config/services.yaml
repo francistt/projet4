@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    app.api.key.mail: '%env(API_KEY_MAIL)%'
+    app.api.key.mail.secret: '%env(API_KEY_MAIL_SECRET)%'
+    app.api.key.stripe.test: '%env(API_KEY_STRIPE_TEST)%'
 services:
     # default configuration for services in *this* file
     _defaults:

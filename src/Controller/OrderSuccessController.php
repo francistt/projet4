@@ -21,7 +21,7 @@ class OrderSuccessController extends AbstractController
     /**
      * @Route("/commande/merci/{idStripe}", name="order_validate")
      */
-    public function index($idStripe, SessionManager $session, Reservation $reservation)
+    public function index($idStripe, SessionManager $session, Reservation $reservation, Mail $mail)
     {
         $order = $this->entityManager->getRepository(Reservation::class)->findOneByIdStripe($idStripe);
 
@@ -37,7 +37,7 @@ class OrderSuccessController extends AbstractController
             $this->entityManager->flush();
 
             // Envoyer un email au client pour lui confirmer sa commande
-            $mail = new Mail();
+           // $mail = new Mail();
                 $content = $this->renderView('mail.html.twig', [
                 'reservation' => $reservation,
                 'session' => $session,
