@@ -18,7 +18,6 @@ class ReservationDate
 
   public function __construct(ParameterBagInterface $parameterBag, ReservationRepository $reservationRepository)
   {
-    // DateTime::setTimezone ();
     $projectDir        = $parameterBag->get('kernel.project_dir');
     $value             = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
     $this->value = $value;
