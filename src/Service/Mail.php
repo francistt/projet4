@@ -8,14 +8,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class Mail
 {
-    private $parameterBagInterface; 
+    private $parameterBagInterface;
     private $api_key;
     private $api_key_secret;
     public function __construct(ParameterBagInterface $parameterBagInterface)
     {
-            $this->parameterBagInterface = $parameterBagInterface;
-            $this->api_key = $parameterBagInterface->get('app.api.key.mail');
-            $this->api_key_secret = $parameterBagInterface->get('app.api.key.mail.secret');
+        $this->parameterBagInterface = $parameterBagInterface;
+        $this->api_key = $parameterBagInterface->get('app.api.key.mail');
+        $this->api_key_secret = $parameterBagInterface->get('app.api.key.mail.secret');
     }
 
     /**
@@ -29,7 +29,7 @@ class Mail
      */
     public function send($to_email, $to_name, $subject, $content)
     {
-        $mj = new Client($this->api_key, $this->api_key_secret,true,['version' => 'v3.1']);
+        $mj = new Client($this->api_key, $this->api_key_secret, true, ['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [

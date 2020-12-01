@@ -19,20 +19,14 @@ class StripeController extends AbstractController
      */
     public function index(EntityManagerInterface $manager, SessionManager $session, $uuid)
     {
-
-
-        //$dotenv = new Dotenv();
-        //$dotenv->load(__DIR__.'/../../.env');
-
         $key = $this->getParameter('app.api.key.stripe.test');
-
 
         Stripe::setApiKey($key);
         $YOUR_DOMAIN = $_ENV['DOMAIN'];
-        
+
         $order = $manager->getRepository(Reservation::class)->findOneByUuid($uuid);
 
-        if(!$order) {
+        if (!$order) {
             new JsonResponse(['error' => 'reservation']);
         }
         //dd($session);
@@ -45,7 +39,7 @@ class StripeController extends AbstractController
                     'unit_amount' => $session->getData('total') * 100,
                     'product_data' => [
                         'name' => 'Billet(s) pour le musée du Louvre',
-                        'images' => [$YOUR_DOMAIN.'/image/Louvrestripe.jpg'],
+                        'images' => [$YOUR_DOMAIN . '/image/Louvrestripe.jpg'],
                     ],
                 ],
                 'quantity' => 1,

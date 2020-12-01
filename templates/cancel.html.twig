@@ -1,19 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Erreur de paiement{% endblock %}
+{% block title %}Erreur de paiement
+{% endblock %}
 
 {% block content %}
-  <div class="card text-white bg-primary mb-6 mt-4">               
-    <h4 class="card-header">Erreur de paiement</h4>
-    <hr>
-      <p class="lead ml-3 mt-3">
-        Bonjour {{ firstName }} {{ lastName }},<br/><br/>
-        Il semblerait que votre paiement a échoué pour votre commande dont la référence est : <strong>{{ order.uuid }}</strong><br/><br/>
-        Une confirmation d'erreur vient de vous être envoyée par email à l'adresse suivante : <strong>{{ email }}</strong>
-        <br/>
-        Souhaitez vous réessayer ?
-        <a class="btn btn-secondary" href="{{ path('summary', {'uuid': order.uuid}) }}">Réessayer le paiement</a> ou 
-        <a class="btn btn-light" href="{{ path('homepage', {'uuid': order.uuid}) }}" class="btn btn-success">Recommancer votre commande</a>
-      </p>
-  </div>
+	<div class="card text-white bg-primary mb-6 mt-4">
+		<h4 class="card-header">Erreur de paiement</h4>
+		<hr>
+		<p class="lead ml-3 mt-3">
+			Bonjour
+			{{ firstName }}
+			{{ lastName }},<br/><br/>
+			Il semblerait que votre paiement a échoué pour votre commande dont la référence est :
+			<strong>{{ order.uuid }}</strong><br/><br/>
+			Une confirmation d'erreur vient de vous être envoyée par email à l'adresse suivante :
+			<strong>{{ email }}</strong>
+			<br/>
+			Souhaitez vous réessayer ?
+			<a class="btn btn-secondary" href="{{ path('summary', {'uuid': order.uuid}) }}">Réessayer le paiement</a>
+			ou
+			<a class="btn btn-light" href="{{ path('homepage', {'uuid': order.uuid}) }}" class="btn btn-success">Recommancer votre commande</a>
+		</p>
+	</div>
 {% endblock %}

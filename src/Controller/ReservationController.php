@@ -24,10 +24,10 @@ class ReservationController extends AbstractController
      */
     public function home(Request $request, EntityManagerInterface $manager, ReservationDate $reservationDate, ParameterBagInterface $parameterBag, SessionManager $session): Response
     {
-        $request->getSession()->set('total', 0);    
+        $request->getSession()->set('total', 0);
         $reservation = new Reservation();
         //on récupère le formulaire
-        
+
         $form = $this->createForm(ReservationType::class, $reservation);
 
         //on récupère les prix de config.yaml
@@ -47,7 +47,7 @@ class ReservationController extends AbstractController
                 $reservation->setUuid(uniqid());
                 $reservation->setIsPaid(0);
                 //on enregistre en BDD
-               
+
                 $manager->persist($reservation);
                 $manager->flush();
                 //dd($form->get('reserver')->get('email')->getData());
@@ -65,7 +65,7 @@ class ReservationController extends AbstractController
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $holidays = $value['ClosedDay'];
         $results = [];
-        foreach($days as $key => $day) {
+        foreach ($days as $key => $day) {
             if (\in_array($day, $holidays, true)) {
                 $results[] = $key;
             }

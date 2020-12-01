@@ -16,7 +16,7 @@ class OrderCancelController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    
+
     /**
      * @Route("/commande/erreur/{idStripe}", name="order_cancel")
      */
@@ -27,7 +27,7 @@ class OrderCancelController extends AbstractController
         if (!$order) {
             return $this->redirectToRoute('hompage');
         }
-        
+
         // Envoyer un email à notre utilisateur pour lui indiquer l'échec de paiement
 
         return $this->render('cancel.html.twig', [

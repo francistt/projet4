@@ -15,24 +15,23 @@ class ReserverUserType extends AbstractType
     {
         $builder
             ->add('lastName', TextType::class, [
-                'label' =>"Nom :",
+                'label' => "Nom :",
                 'attr' => [
                     'placeholder' => 'votre nom'
                 ]
             ])
             ->add('firstName', TextType::class, [
-                'label' =>"Prénom :",
+                'label' => "Prénom :",
                 'attr' => [
                     'placeholder' => 'votre prénom'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' =>"Adresse Email :",
+                'label' => "Adresse Email :",
                 'attr' => [
                     'placeholder' => 'votre email où seront envoyés vos billets'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

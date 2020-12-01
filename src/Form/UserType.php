@@ -27,9 +27,10 @@ class UserType extends AbstractType
             ->add('birthdate', BirthdayType::class, [
                 'format'      => 'ddMMyyyy',
                 'years'       => range(date('Y') - 99, date('Y')),
-                'label_attr'  => ['class' =>'active'],
+                'label_attr'  => ['class' => 'active'],
                 'placeholder' => [
-                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour', ],
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
                 'attr'        => [
                     'class' => 'active birthdate',
                 ],
@@ -37,8 +38,7 @@ class UserType extends AbstractType
             ])
             ->add('discount', CheckboxType::class, [
                 'required' => false
-            ])
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

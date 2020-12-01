@@ -19,15 +19,15 @@ class Reservation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     */ 
+     */
     private $id;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="reservation", cascade={"persist"})
      */
     private $clients;
 
-     /**
+    /**
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      */
     private $reserver;
@@ -37,7 +37,7 @@ class Reservation
      */
     private $createdAt;
 
-   /** 
+    /** 
      * @ORM\Column(type="date")
      * @Assert\Date(message="Attention, la date doit être au bon format")
      * @Assert\GreaterThanOrEqual("today", message="La date de réservation doit être ultérieure ou égale à la date d'aujourd'hui !")
@@ -58,7 +58,7 @@ class Reservation
     /**
      * @ORM\Column(type="boolean")
      */
-    private $halfDay=false;
+    private $halfDay = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -73,7 +73,7 @@ class Reservation
     /**
      * @ORM\Column(type="boolean")
      */
-    private $state=false;
+    private $state = false;
 
     /**
      * @ORM\Column(type="boolean")

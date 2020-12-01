@@ -15,38 +15,38 @@ class ReservationType extends AbstractType
 {
     private $transformer;
 
-    public function __construct(FrenchToDateTimeTransformer $transformer) {
+    public function __construct(FrenchToDateTimeTransformer $transformer)
+    {
         $this->transformer = $transformer;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-           ->add('reserver', ReserverUserType::class, [
-               'label' => false
-           ])
-            ->add('nbTicket', IntegerType::class,[
-                'label' =>"Nombre de billet(s) :",
-                    'attr' => [
+            ->add('reserver', ReserverUserType::class, [
+                'label' => false
+            ])
+            ->add('nbTicket', IntegerType::class, [
+                'label' => "Nombre de billet(s) :",
+                'attr' => [
                     'min' => 0,
                     'max' => 10,
                     'step' => 1
                 ]
             ])
 
-            ->add('reservation_date', TextType::class,[
-                'label' =>"Date de visite :"           
+            ->add('reservation_date', TextType::class, [
+                'label' => "Date de visite :"
             ])
-            
+
             ->add('halfDay', ChoiceType::class, [
-                'label' =>"Type de billet :",
+                'label' => "Type de billet :",
                 'choices' => array_flip([
                     'Billet « Journée »',
                     'Billet « Demi-journée » Il vous permet d’entrer dans l’établissement à partir de 14h.'
                 ]),
                 'expanded' => true
-            ])
-        ;
+            ]);
 
         $builder->get('reservation_date')->addModelTransformer($this->transformer);
     }

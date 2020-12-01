@@ -49,7 +49,7 @@ class User
     /**
      * @ORM\Column(type="boolean")
      */
-    private $discount=false;
+    private $discount = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="clients")

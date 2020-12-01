@@ -27,10 +27,6 @@ class OrderController extends AbstractController
         //on relie l'objet à la requête
         $form->handleRequest($request);
 
-        //if (!$session->newInput()) { //on dépasse
-          //  return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
-        //}
-
         $isFinish = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -41,7 +37,7 @@ class OrderController extends AbstractController
 
                 $session->addTicket($price);
                 $reservation->setTotal($session->getTotal());
-               
+
                 $manager->persist($user);
                 $manager->flush();
 
@@ -58,6 +54,5 @@ class OrderController extends AbstractController
             'limit' => $reservation->getNbTicket(),
             'is_finish' => $isFinish
         ]);
-        
     }
 }

@@ -37,8 +37,8 @@ class OrderSuccessController extends AbstractController
             $this->entityManager->flush();
 
             // Envoyer un email au client pour lui confirmer sa commande
-           // $mail = new Mail();
-                $content = $this->renderView('mail.html.twig', [
+            // $mail = new Mail();
+            $content = $this->renderView('mail.html.twig', [
                 'reservation' => $reservation,
                 'session' => $session,
                 'order' => $order,
@@ -46,7 +46,7 @@ class OrderSuccessController extends AbstractController
                 'firstName' => $session->getData('firstName'),
                 'lastName' => $session->getData('lastName'),
                 'email' => $session->getData('email')
-             ]);
+            ]);
             $mail->send($session->getData('email'), $session->getData('firstName'), "Vos billets", $content);
         }
 
@@ -63,6 +63,5 @@ class OrderSuccessController extends AbstractController
             'lastName' => $session->getData('lastName'),
             'email' => $session->getData('email')
         ]);
-        
     }
 }
