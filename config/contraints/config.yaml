@@ -29,6 +29,8 @@ Holidays:
 
 EntriesLimit: 1000
 
+BookingHourHalfDay: '14:00'
+
 BookingHourMax: '21:30'
 
 

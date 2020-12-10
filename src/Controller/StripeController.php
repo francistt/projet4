@@ -29,7 +29,6 @@ class StripeController extends AbstractController
         if (!$order) {
             new JsonResponse(['error' => 'reservation']);
         }
-        //dd($session);
         $checkout_session = Session::create([
             'customer_email' => $session->getData('email'),
             'payment_method_types' => ['card'],

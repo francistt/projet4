@@ -4,7 +4,7 @@ namespace App\Service;
 
 use DateTime;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+// use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TicketPrice
 {
@@ -18,10 +18,10 @@ class TicketPrice
     private $discount;
     private $coefHalfDay;
 
-    public function __construct(ParameterBagInterface $parameterBag)
-    {
-        $projectDir          = $parameterBag->get('kernel.project_dir');
-        $value               = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
+    public function __construct()
+    {    
+        // $projectDir          = $parameterBag->get('kernel.project_dir');
+        $value               = Yaml::parseFile(__DIR__. '/../../config/contraints/config.yaml');
         $this->sinceSenior   = $value['TicketPrice']['ages']['sinceSenior'];
         $this->limitBaby     = $value['TicketPrice']['ages']['limitBaby'];
         $this->limitChildren = $value['TicketPrice']['ages']['limitChildren'];
@@ -33,6 +33,14 @@ class TicketPrice
         $this->coefHalfDay   = $value['TicketPrice']['coefficient']['halfDay'];
     }
 
+    /**
+     * Permet de calculer le prix en fonction de l'age
+     *
+     * @param DateTime $birthdate
+     * @param boolean $reduced
+     * @param boolean $halfday
+     * @return integer
+     */
     public function getPrice($birthdate, $reduced, $halfday)
     {
         $age = $this->getAge($birthdate);
@@ -42,19 +50,33 @@ class TicketPrice
 
         return $this->definePrice($this->priceNormal, $reduced, $halfday);
     }
-
+    
+    /**
+     * Permet de calculer l'age en fonction de la date de naissance
+     *
+     * @param DateTime $birthdate
+     * @return integer
+     */
     private function getAge($birthdate)
     {
         return $birthdate->diff(new DateTime())->y;
     }
 
+    /**
+     * Permet de calculer le prix unitaire en fonction du choix
+     *
+     * @param [integer] $ref
+     * @param boolean $reduced
+     * @param boolean $halfday
+     * @return integer
+     */
     private function definePrice($ref, $reduced, $halfday)
     {
         $price = $ref;
         if ($halfday) $price = $price * $this->coefHalfDay;
         if ($reduced) $price = $price - $this->discount;
         if ($price < 0) return 0;
-
+        
         return $price;
     }
 }

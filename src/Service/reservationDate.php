@@ -16,8 +16,11 @@ class ReservationDate
   private $reservationRepository;
   private $value;
 
+  private $param;
+
   public function __construct(ParameterBagInterface $parameterBag, ReservationRepository $reservationRepository)
   {
+    $this->param=$parameterBag;
     $projectDir        = $parameterBag->get('kernel.project_dir');
     $value             = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
     $this->value = $value;
@@ -38,6 +41,8 @@ class ReservationDate
     $date = $reservation->getReservationDate()->setTimezone(new DateTimeZone('Europe/Paris'));
     $today = new DateTime('', new DateTimeZone('Europe/Paris'));
     $nbTicket = $reservation->getNbTicket();
+    $value = Yaml::parseFile(__DIR__.'/../../config/contraints/config.yaml');
+    $bookingHourHalfDay = $value['BookingHourHalfDay'];
 
     // check public holiday
     $dayMonth = $date->format('d/m');
@@ -65,7 +70,7 @@ class ReservationDate
 
     if (
       $today->format('d/m/Y') === $date->format('d/m/Y')
-      && '14:00:00' <= $date->format('H:i:s')
+      && $bookingHourHalfDay <= $date->format('H:i:s')
       && !$reservation->getHalfDay()
     ) {
       return ['open' => false, 'info' => "Demi tarif applicable après 14h"];
@@ -77,7 +82,7 @@ class ReservationDate
   /**
    * Retourne les dates des jours fériés
    *
-   * @return void
+   * @return Array
    */
   public function getPublicHoliday()
   {
@@ -87,11 +92,11 @@ class ReservationDate
   /**
    * Vérifie que la date demandée n'est pas le jour de pâques
    *
-   * @param   [type]  $year          $année de la réservation
-   * @param   [type]  $monthBooking  [$monthBooking description]
-   * @param   [type]  $dayBooking    [$dayBooking description]
+   * @param   [integer]  $year          $année de la réservation
+   * @param   [integer]  $monthBooking  [$monthBooking description]
+   * @param   [integer]  $dayBooking    [$dayBooking description]
    *
-   * @return  bool                 [return description]
+   * @return  boolean                 [return description]
    */
   private function paques($year, $monthBooking, $dayBooking)
   {
@@ -103,9 +108,9 @@ class ReservationDate
     $n = 5;
     $d = (19 * $c + $m) % 30;
     $e = (2 * $a + 4 * $b + 6 * $d + $n) % 7;
-
+    
     $easterdate = 22 + $d + $e;
-
+    
     if ($easterdate > 31) {
       $day = $d + $e - 9;
       $month = 4;
@@ -113,7 +118,7 @@ class ReservationDate
       $day = 22 + $d + $e;
       $month = 3;
     }
-
+    
     if ($d == 29 && $e == 6) {
       $day = 10;
       $month = 04;
@@ -121,7 +126,7 @@ class ReservationDate
       $day = 18;
       $month = 04;
     }
-
+    
     if ($day === intval($dayBooking) && $month === intval($monthBooking)) return true;
     if (($day + 1) === intval($dayBooking) && $month === intval($monthBooking)) return true;
     if (($day + 9) === intval($dayBooking) && ($month + 1) === intval($monthBooking)) return true;

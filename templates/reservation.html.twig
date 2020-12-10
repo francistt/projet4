@@ -13,7 +13,7 @@
                 <div class="col-md-6">
                     {{ form_start(form) }}
                     {{ form_widget(form) }}                   
-                    <button type="submit" class="btn btn-success btn-block">Suivant</button>
+                    <button type="submit" name="Suivant" class="btn btn-success btn-block">Suivant</button>
                     {{ form_end(form) }}
                 </div>
                 <div class="col-md-6">
@@ -65,8 +65,7 @@
                 format: 'dd/mm/yyyy',
                 todayHighlight: true,
                 daysOfWeekDisabled: [{{results|join(',')}}],
-                language:['fr'],
-                
+                language:['fr'],        
                 startDate: new Date()
             });
         })

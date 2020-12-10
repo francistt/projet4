@@ -21,8 +21,8 @@ class Mail
     /**
      * Permet d'envoyer un email
      *
-     * @param [type] $to_email
-     * @param [type] $to_name
+     * @param string $to_email
+     * @param string $to_name
      * @param [type] $subject
      * @param [type] $content
      * @return Object

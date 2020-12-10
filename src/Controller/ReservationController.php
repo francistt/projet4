@@ -29,7 +29,7 @@ class ReservationController extends AbstractController
         //on récupère le formulaire
 
         $form = $this->createForm(ReservationType::class, $reservation);
-
+        
         //on récupère les prix de config.yaml
         $projectDir          = $parameterBag->get('kernel.project_dir');
         $value               = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
@@ -70,7 +70,6 @@ class ReservationController extends AbstractController
                 $results[] = $key;
             }
         }
-
 
         //on rend la vue
         return $this->render('reservation.html.twig', [

@@ -73,11 +73,6 @@ class Reservation
     /**
      * @ORM\Column(type="boolean")
      */
-    private $state = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $isPaid;
 
     public function __construct()
@@ -171,18 +166,6 @@ class Reservation
     public function setIdStripe(?string $idStripe): self
     {
         $this->idStripe = $idStripe;
-
-        return $this;
-    }
-
-    public function getState(): ?bool
-    {
-        return $this->state;
-    }
-
-    public function setState(bool $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
