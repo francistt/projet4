@@ -26,7 +26,7 @@ class OrderController extends AbstractController
 
         //on relie l'objet à la requête
         $form->handleRequest($request);
-        dd($form);
+       
         $isFinish = false;
 
         if ($form->isSubmitted() && $form->isValid()) {

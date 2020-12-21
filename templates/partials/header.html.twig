@@ -48,10 +48,17 @@
     </li>
     {% if reservation.id is defined and reservation.id is not null %}
         <li class="breadcrumb-item">
-            <a href="/billetterie/paiement">le compte rendu</a>
+            <a href="#">Identification des visiteurs</a>
         </li>
+    {% endif %}
+    {% if (reservation.id is defined and reservation.id is not null) and  (reservation.clients.count == reservation.nbTicket) %}
         <li class="breadcrumb-item">
-            <a href="/billetterie/confirmation">Confirmation de la commande</a>
+            <a href="#">Résumé de la commande</a>
+        </li>
+    {% endif %}
+     {% if (reservation.id is defined and reservation.id is not null) and  (reservation.clients.count == reservation.nbTicket) and (reservation.isPaid == 1) %}
+        <li class="breadcrumb-item">
+            <a href="#">Confirmation de votre commande</a>
         </li>
     {% endif %}
 </ol>
