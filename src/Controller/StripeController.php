@@ -49,7 +49,7 @@ class StripeController extends AbstractController
         ]);
 
         $order->setIdStripe($checkout_session->id);
-        //dd($order, $checkout_session, $session->getTotal());
+
         $manager->flush();
 
         $response = new JsonResponse(['id' => $checkout_session->id]);

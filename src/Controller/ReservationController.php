@@ -29,7 +29,7 @@ class ReservationController extends AbstractController
         //on récupère le formulaire
 
         $form = $this->createForm(ReservationType::class, $reservation);
-        
+
         //on récupère les prix de config.yaml
         $projectDir          = $parameterBag->get('kernel.project_dir');
         $value               = Yaml::parseFile($projectDir . '/config/contraints/config.yaml');
@@ -46,18 +46,17 @@ class ReservationController extends AbstractController
             } else {
                 $reservation->setUuid(uniqid());
                 $reservation->setIsPaid(0);
-                //on enregistre en BDD
 
                 $manager->persist($reservation);
                 $manager->flush();
-                //dd($form->get('reserver')->get('email')->getData());
+
                 $session->setOrder([
                     "email" => $form->get('reserver')->get('email')->getData(),
                     "lastName" => $form->get('reserver')->get('lastName')->getData(),
                     "firstName" => $form->get('reserver')->get('firstName')->getData(),
                     "nbTicket" => $form->get('nbTicket')->getData()
                 ]);
-                //dd($session, $session->getData('email'));
+
                 return $this->redirectToRoute('summary', ['uuid' => $reservation->getUuid()]);
             }
         }
@@ -71,7 +70,6 @@ class ReservationController extends AbstractController
             }
         }
 
-        //on rend la vue
         return $this->render('reservation.html.twig', [
             'reservation'   => $reservation,
             'form'          => $form->createView(),

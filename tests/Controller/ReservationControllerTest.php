@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReservationControllerTest extends WebTestCase
 {
+    /**
+     * Test la réponse HTTP
+     *
+     * @return void
+     */
     public function testHomepageIsUp()
     {
         $expected = Response::HTTP_OK;
@@ -18,34 +23,16 @@ class ReservationControllerTest extends WebTestCase
         //echo $client->getResponse()->getContent();
     }
 
+    /**
+     * Test le contenu de la page Homepage
+     *
+     * @return void
+     */
     public function testHomepage()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         $this->assertSame(1, $crawler->filter('html:contains("Le musée du Louvre vous accueille tous les jours")')->count());
-    }
-
-    public function testAddNewRecord()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        $form = $crawler->selectButton('Suivant')->form();
-        $form['reservation[reserver][lastName]'] = 'Dupont';
-        $form['reservation[reserver][firstName]'] = 'Jean';
-        $form['reservation[reserver][email]'] = 'Jean.dupont@gmail.com';
-        $form['reservation[nbTicket]'] = 1;
-        $form['reservation[reservation_date]'] = '2021-01-02';
-        $form ['reservation[halfDay]'] = 1;
-
-        $client->submit($form);
-
-        
-        $crawler = $client->followRedirect();
-
-        echo $client->getResponse()->getContent();
-
-
     }
 }

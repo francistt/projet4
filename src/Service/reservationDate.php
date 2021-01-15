@@ -16,8 +16,6 @@ class ReservationDate
   private $reservationRepository;
   private $value;
 
-  private $param;
-
   public function __construct(ParameterBagInterface $parameterBag, ReservationRepository $reservationRepository)
   {
     $this->param=$parameterBag;

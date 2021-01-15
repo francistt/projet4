@@ -65,14 +65,13 @@ class TicketPrice
     /**
      * Permet de calculer le prix unitaire en fonction du choix
      *
-     * @param [integer] $ref
+     * @param integer $price
      * @param boolean $reduced
      * @param boolean $halfday
      * @return integer
      */
-    private function definePrice($ref, $reduced, $halfday)
-    {
-        $price = $ref;
+    private function definePrice($price, $reduced, $halfday)
+    { 
         if ($halfday) $price = $price * $this->coefHalfDay;
         if ($reduced) $price = $price - $this->discount;
         if ($price < 0) return 0;

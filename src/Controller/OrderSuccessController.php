@@ -52,8 +52,6 @@ class OrderSuccessController extends AbstractController
 
         // Afficher les quelques informations de la commande de l'utilisateur
 
-
-
         return $this->render('success.html.twig', [
             'reservation' => $reservation,
             'session' => $session,

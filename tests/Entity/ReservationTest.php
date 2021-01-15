@@ -16,6 +16,11 @@ class ReservationTest extends TestCase
     private $reservationDate;
     private $totalTicketReserved = 1;
 
+    /**
+     * SetUp pour les tests
+     *
+     * @return void
+     */
     public function setUp(): void 
     {
         $this->projectDir = $this->createMock(ParameterBagInterface::class);
@@ -46,9 +51,9 @@ class ReservationTest extends TestCase
              ->method('getTotalTicket')
              ->willReturn($this->totalTicketReserved); 
 
-        $this->reservationDate = new ReservationDate($this->projectDir,  $this->reservationRepository);
+        $this->reservationDate = new ReservationDate($this->projectDir, $this->reservationRepository);
         $reservation = new Reservation();
-        $reservation->setReservationDate(new DateTime());
+        $reservation->setReservationDate(new DateTime('2021-02-08'));
         $reservation->setNbTicket(10);
 
         $result = $this->reservationDate->dateIsValid($reservation);
@@ -66,9 +71,9 @@ class ReservationTest extends TestCase
     {
         $expectedResult = "";
     
-        $this->reservationDate = new ReservationDate($this->projectDir,  $this->reservationRepository);
+        $this->reservationDate = new ReservationDate($this->projectDir, $this->reservationRepository);
         $reservation = new Reservation();
-        $reservation->setReservationDate(new DateTime());
+        $reservation->setReservationDate(new DateTime('2021-02-08'));
         $reservation->setNbTicket(10);
 
         $result = $this->reservationDate->dateIsValid($reservation);
@@ -85,9 +90,9 @@ class ReservationTest extends TestCase
     {
         $expectedResult = "Le musée est fermé le mardi et le dimanche";
 
-        $this->reservationDate = new ReservationDate($this->projectDir,  $this->reservationRepository);
+        $this->reservationDate = new ReservationDate($this->projectDir, $this->reservationRepository);
         $reservation = new Reservation();
-        $reservation->setReservationDate(new DateTime('2020-12-06'));
+        $reservation->setReservationDate(new DateTime('2021-02-07'));
 
         $result = $this->reservationDate->dateIsValid($reservation);
 
