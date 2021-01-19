@@ -30,7 +30,7 @@ class SessionManager
     /**
      * Permet d'ajouter le prix d'un billet au total
      *
-     * @param [integer] $montant
+     * @param int $montant
      * @return integer
      */
     public function addTicket($montant)

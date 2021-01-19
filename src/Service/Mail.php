@@ -47,10 +47,6 @@ class Mail
                     'TemplateLanguage' => true,
                     'Subject' => $subject,
                     'Variables' => [
-                        //'reservation' => $reservation,
-                        //'session' => $session,
-                        //'reservationDate' => $session->getData('reservation_date'),
-                        //'firstName' => $session->getData('firstName'),
                         'content' => $content,
                     ]
                 ]

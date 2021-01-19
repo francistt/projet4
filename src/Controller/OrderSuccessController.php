@@ -28,7 +28,6 @@ class OrderSuccessController extends AbstractController
         if (!$order) {
             return $this->redirectToRoute('hompage');
         }
-        //dd($order, $session);
 
         if (!$order->getIsPaid()) {
 
@@ -37,8 +36,7 @@ class OrderSuccessController extends AbstractController
             $this->entityManager->flush();
 
             // Envoyer un email au client pour lui confirmer sa commande
-            // $mail = new Mail();
-            $content = $this->renderView('mail.html.twig', [
+            $content = $this->renderView('mailSuccess.html.twig', [
                 'reservation' => $reservation,
                 'session' => $session,
                 'order' => $order,

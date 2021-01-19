@@ -31,7 +31,14 @@ EntriesLimit: 1000
 
 BookingHourHalfDay: '14:00'
 
-BookingHourMax: '21:30'
+BookingHourMax: '17:30'
+
+BookingHourMaxException:
+  days: ['Thu', 'Fri']
+  time: '21:30'
+
+
+
 
 
 

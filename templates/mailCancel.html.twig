@@ -1,0 +1,23 @@
+<h2>Erreur de paiement</h2>
+
+{% block content %}
+  <div class="card text-white bg-primary mb-6 mt-4">        
+    <hr>
+    <p class="lead ml-3 mt-3">
+      Bonjour {{ firstName }},
+      <br/>
+      <br/>
+      Il semblerait que votre réservation <strong>{{ order.uuid }}</strong> ai échoué.<br/>
+      Nous n'avons rien débité de votre carte de crédit<br/>
+      <hr>
+      Si vous souhaitez réserver à nouveau, cliquez sur le bouton billetterie.<br/>
+      <hr>
+      Si malgré tout vous n'arrivez pas a réserver via notre site,<br/>
+      Contactez nous au 01 02 03 04 05 ou par mail à musee-du-louvre@nevertoolate.fr
+      <br/>
+      <br/>
+      Cordialement<br/>
+      L'équipe du musée du Louvre.
+    </p>
+  </div> 
+{% endblock %}

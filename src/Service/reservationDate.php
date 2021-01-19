@@ -25,6 +25,8 @@ class ReservationDate
     $this->publicHoliday = $value["Holidays"];
     $this->closedDay = $value["ClosedDay"];
     $this->bookingHourMax = $value["BookingHourMax"];
+    $this->bookingHourMaxException = $value["BookingHourMaxException"]['time'];
+    $this->bookingHourMaxExceptionDays = $value["BookingHourMaxException"]['days'];
     $this->reservationRepository = $reservationRepository;
   }
 
@@ -56,8 +58,19 @@ class ReservationDate
       return ['open' => false, 'info' => 'Le musée est fermé les jours fériés'];
     }
 
-    if ($date->format('Ymd') === (new \DateTime())->format('Ymd') && intval($date->format('H:i')) >= $this->bookingHourMax) {
-      return ['open' => false, 'info' => 'Vous ne pouvez plus réserver pour le jour même'];
+    if ($date->format('Ymd') === (new \DateTime())->format('Ymd')) 
+    { 
+       $result =  ['open' => false, 'info' => 'Vous ne pouvez plus réserver pour le jour même'];
+       $ifDayInList = in_array((new \DateTime())->format('D'), $this->bookingHourMaxExceptionDays, true);
+      if ($ifDayInList) {
+         if (intval($date->format('H:i')) >= $this->bookingHourMaxException) {
+            return $result;
+         }
+      } else {
+        if (intval($date->format('H:i')) >= $this->bookingHourMax) {
+          return $result;
+        }
+      }
     }
 
     $nbTicketTotal = $this->reservationRepository->getTotalTicket($date) + $nbTicket;

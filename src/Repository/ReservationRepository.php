@@ -31,8 +31,6 @@ class ReservationRepository extends ServiceEntityRepository
             ->setParameter('paid', true)
             ->setParameter('date', $dateTimeInterface->format('Y-m-d'));
 
-        //dd($dateTimeInterface->format('Y-m-d'), $qb->getQuery()->getResult(), $qb->getQuery()->getSql());
-
         return (int) $qb->getQuery()->getResult()[0]['nb_ticket'];
     }
 }
